@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import d3 from 'd3';
 
 import Alphabet from './components/Alphabet';
-import FancyText from './components/FancyText';
+import Line from './components/Line';
 
 class App extends Component {
     state = {text: ''};
@@ -21,13 +21,13 @@ class App extends Component {
                        onChange={::this.changeText} placeholder="Type here"
                        style={{padding: '.6em',
                                fontSize: '1.2em',
-                               margin: '0px auto',
-                               width: '80%'}} />
+			       margin: '0px auto',
+			       width: '80%'}} />
 		<svg width="100%" height="800">
-		    <FancyText x="32" y="32" text={this.state.text} />
-                </svg>
-            </div>
-        );
+		    <Line x="32" y="32" text={this.state.text} />
+		</svg>
+	    </div>
+	);
     }
 }
 
