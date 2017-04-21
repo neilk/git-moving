@@ -31,6 +31,10 @@ module.exports = {
     {
         test: /\.less$/,
         loader: "style!css!less"
+    },
+    {
+        test: /\.json$/,
+        loader: "json"
     }]
       // require('style.less')
       // --> <link ...

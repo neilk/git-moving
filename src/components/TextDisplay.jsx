@@ -5,8 +5,8 @@ import Letter from './Letter';
 import React, { Component } from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
 
-const LetterWidth = 14,
-      LetterHeight = 32;
+const LetterWidth = 8,
+      LetterHeight = 20;
 
 class TextDisplay extends Component {
     state = {

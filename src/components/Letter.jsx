@@ -6,7 +6,7 @@ import * as d3 from "d3";
 const ExitColor = 'brown',
       UpdateColor = '#333',
       EnterColor = 'green',
-      Font = '24px Inconsolata-g, monospace',
+      Font = '14px Inconsolata-g, monospace',
       Vanish = 1e-6; // a float very close to zero, for transition
 
 
