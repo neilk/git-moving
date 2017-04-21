@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
 import Letter from './Letter';
 
-class FancyText extends Component {
+class Line extends Component {
     state = {
         text: '',
         textWithIds: [],
@@ -14,6 +14,7 @@ class FancyText extends Component {
     componentWillReceiveProps(newProps) {
         const oldText = this.state.textWithIds;
         const newText = newProps.text.split('');
+
         let indexOfChange = 0,
             sizeOfChange = 0,
             newLastId = this.state.lastId;
@@ -76,4 +77,4 @@ class FancyText extends Component {
     }
 }
 
-export default FancyText;
+export default Line;
