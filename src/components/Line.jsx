@@ -1,61 +1,64 @@
 
 import * as d3 from "d3";
+import * as diff from "diff";
+import Letter from './Letter';
 import React, { Component } from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
-import Letter from './Letter';
 
 class Line extends Component {
     state = {
+        // the text
         text: '',
+
+        // textWithIds is an array of two-element arrays; character and id
+        // e.g. [ ["t", 0], ["h", 1], ["e", 2]]
+        // the idea is, d3 will create objects with those Ids on the page.
+        // If we give the object a new position, d3 will transition them automatically.
+        // So, as much as possible, we try to preserve the old ids! See below.
         textWithIds: [],
+
+        // this is a counter of new chars we have seen. We use it to make new text ids
         lastId: 0
     };
 
     componentWillReceiveProps(newProps) {
-        const oldText = this.state.textWithIds;
-        const newText = newProps.text.split('');
+        const newText = newProps.text;
 
-        let indexOfChange = 0,
-            sizeOfChange = 0,
-            newLastId = this.state.lastId;
+        const oldText = this.state.text;
+        const oldTextWithIds = this.state.textWithIds;
+        let newLastId = this.state.lastId;
 
-        // find change
-        for (; newText[indexOfChange] == (oldText[indexOfChange] && oldText[indexOfChange][0]); indexOfChange++);
+        // Now we calculate the new text with ids
+        let hunks = diff.diffChars(oldText, newProps.text);
+        /*
 
-        // calculate size of change
-        if (newText.length > oldText.length) {
-            while (newText[indexOfChange+sizeOfChange] != (oldText[indexOfChange] && oldText[indexOfChange][0])
-                    && indexOfChange+sizeOfChange < newText.length) {
-                        sizeOfChange = sizeOfChange+1;
-            }
-        }else{
-            while (newText[indexOfChange] != (oldText[indexOfChange+sizeOfChange] && oldText[indexOfChange+sizeOfChange][0])
-                    && indexOfChange+sizeOfChange < oldText.length) {
-                        sizeOfChange = sizeOfChange+1;
-            }
-        }
-
-        // use existing ids up to point of change
-        d3.range(0, indexOfChange).forEach((i) => newText[i] = oldText[i]);
-
-        // use new ids for additions
-        if (newText.length > oldText.length) {
-            d3.range(indexOfChange, indexOfChange+sizeOfChange).forEach((i) => {
-                let letter = newText[i];
-                newText[i] = [letter, newLastId++];
-            });
-
-            // use existing ids from change to end
-            d3.range(indexOfChange+sizeOfChange, newText.length).forEach((i) =>
-                newText[i] = oldText[i-sizeOfChange]);
-        }else{
-            // use existing ids from change to end, but skip what's gone
-            d3.range(indexOfChange, newText.length).forEach((i) =>
-                newText[i] = oldText[i+sizeOfChange]);
-        }
+        hunks will look like this:
+        [ { count: 2, value: 'ab' },
+          { count: 1, added: undefined, removed: true, value: 'c' },
+          { count: 4, value: 'defg' },
+          { count: 2, added: undefined, removed: true, value: 'hi' },
+          { count: 1, value: 'j' },
+          { count: 3, added: true, removed: undefined, value: 'klm' } ]
+         */
+        var newTextWithIds = [];
+        var oldIndex = 0;
+        hunks.forEach((hunk) => {
+            hunk.value.split('').forEach((c) => {
+                if (hunk.added) {
+                    // add chars with new ids
+                    newTextWithIds.push([c, newLastId++]);
+                } else if (hunk.removed) {
+                    // do nothing, but advance through old string
+                    oldIndex++;
+                } else {
+                    // hunk is same as original text; copy, and advance
+                    newTextWithIds.push(oldTextWithIds[oldIndex++]);
+                }
+            })
+        });
 
         this.setState({text: newProps.text,
-                       textWithIds: newText,
+                       textWithIds: newTextWithIds,
                        lastId: newLastId});
     }
 

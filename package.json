@@ -1,7 +1,7 @@
 {
-  "name": "react-d3-enter-exit-transitions",
+  "name": "git-moving",
   "version": "1.0.0",
-  "description": "A proof of concept exploration of using d3js transitions in a React visualization.",
+  "description": "Hackathon project to watch diff transitions",
   "scripts": {
     "clean": "rimraf dist",
     "build:webpack": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
@@ -55,6 +55,8 @@
   },
   "dependencies": {
     "d3": "^4.0.0-alpha.29",
+    "diff": "^3.2.0",
+    "less": "^2.7.2",
     "lodash": "^4.6.1",
     "react": "^15.0.0",
     "react-addons-transition-group": "^15.0.1",
