@@ -8,7 +8,7 @@ import ReactTransitionGroup from 'react-addons-transition-group';
 const LetterWidth = 14,
       LetterHeight = 32;
 
-class Line extends Component {
+class TextDisplay extends Component {
     state = {
         // the text
         text: '',
@@ -101,4 +101,4 @@ class Line extends Component {
     }
 }
 
-export default Line;
+export default TextDisplay;
