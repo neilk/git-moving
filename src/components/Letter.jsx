@@ -5,7 +5,11 @@ import * as d3 from "d3";
 
 const ExitColor = 'brown',
       UpdateColor = '#333',
-      EnterColor = 'green';
+      EnterColor = 'green',
+      LetterWidth = 14,
+      Font = '24px Inconsolata-g, monospace'; // LetterWidth * 1.5
+
+
 
 class Letter extends Component {
     state = {
@@ -18,7 +22,7 @@ class Letter extends Component {
     componentWillEnter(callback) {
         let node = d3.select(ReactDOM.findDOMNode(this));
 
-        this.setState({x: this.props.i*32});
+        this.setState({x: this.props.i*LetterWidth});
 
         node.transition(this.transition)
             .attr('y', 0)
@@ -51,8 +55,8 @@ class Letter extends Component {
             this.setState({color: UpdateColor});
 
             node.transition(this.transition)
-                .attr('x', nextProps.i*32)
-                .on('end', () => this.setState({x: nextProps.i*32}));
+                .attr('x', nextProps.i * LetterWidth)
+                .on('end', () => this.setState({x: nextProps.i * LetterWidth}));
         }
     }
 
@@ -63,7 +67,7 @@ class Letter extends Component {
                   x={this.state.x}
                   style={{fillOpacity: this.state.fillOpacity,
                           fill: this.state.color,
-                          font: 'bold 48px monospace'}}>
+                          font: Font}}>
                 {this.props.letter}
             </text>
         );
