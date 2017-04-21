@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import d3 from 'd3';
+import * as d3 from "d3";
 
 const ExitColor = 'brown',
       UpdateColor = '#333',
