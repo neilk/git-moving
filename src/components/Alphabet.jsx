@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
-import d3 from 'd3';
+import * as d3 from "d3";
 
 import Letter from './Letter';
 
