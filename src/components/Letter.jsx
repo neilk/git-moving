@@ -6,67 +6,71 @@ import * as d3 from "d3";
 const ExitColor = 'brown',
       UpdateColor = '#333',
       EnterColor = 'green',
-      LetterWidth = 14,
-      Font = '24px Inconsolata-g, monospace'; // LetterWidth * 1.5
-
+      Font = '24px Inconsolata-g, monospace',
+      Vanish = 1e-6; // a float very close to zero, for transition
 
 
 class Letter extends Component {
     state = {
-        y: -60,
-        x: 0,
-        color: EnterColor,
-        fillOpacity: 1e-6
+	y: 0,
+	x: 0,
+	color: EnterColor,
+	fillOpacity: Vanish
     }
 
     componentWillEnter(callback) {
-        let node = d3.select(ReactDOM.findDOMNode(this));
+	let node = d3.select(ReactDOM.findDOMNode(this));
 
-	this.setState({x: this.props.i*LetterWidth});
+	this.setState({x: this.props.x, y: this.props.y});
 
-        node.transition(this.transition)
-            .attr('y', 0)
-            .style('fill-opacity', 1)
-            .on('end', () => {
-                this.setState({y: 0, fillOpacity: 1, color: UpdateColor});
-                callback()
-            });
+	node.transition(this.transition)
+	    .style('fill-opacity', 1)
+	    .on('end', () => {
+		this.setState({x: this.props.x,
+			       y: this.props.y,
+			       fillOpacity: 1,
+			       color: UpdateColor});
+		callback()
+	    });
     }
 
     componentWillLeave(callback) {
         let node = d3.select(ReactDOM.findDOMNode(this));
 
-        this.setState({color: ExitColor});
+	this.setState({color: ExitColor});
 
-        node.interrupt()
-            .transition(this.transition)
-            .attr('y', 60)
-            .style('fill-opacity', 1e-6)
-            .on('end', () => {
-                this.setState({y: 60, fillOpacity: 1e-6});
-                callback()
-            });
+	// .attr('y', 60)
+
+	node.interrupt()
+	    .transition(this.transition)
+	    .style('fill-opacity', Vanish)
+	    .on('end', () => {
+		this.setState({fillOpacity: Vanish});
+		callback();
+	    });
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.i != nextProps.i) {
-            let node = d3.select(ReactDOM.findDOMNode(this));
+	if ((this.props.x != nextProps.x) || (this.props.y != nextProps.y)) {
+	    let node = d3.select(ReactDOM.findDOMNode(this));
 
-            this.setState({color: UpdateColor});
+	    this.setState({color: UpdateColor});
 
-            node.transition(this.transition)
-		.attr('x', nextProps.i * LetterWidth)
-		.on('end', () => this.setState({x: nextProps.i * LetterWidth}));
-        }
+	    node.transition(this.transition)
+		.attr('x', nextProps.x)
+		.attr('y', nextProps.y)
+		.on('end', () => this.setState({x: nextProps.x,
+						y: nextProps.y}));
+	}
     }
 
     render() {
-        return (
-            <text dy=".35em"
-                  y={this.state.y}
-                  x={this.state.x}
-                  style={{fillOpacity: this.state.fillOpacity,
-                          fill: this.state.color,
+	return (
+	    <text dy=".35em"
+		  x={this.state.x}
+		  y={this.state.y}
+		  style={{fillOpacity: this.state.fillOpacity,
+			  fill: this.state.color,
 			  font: Font}}>
                 {this.props.letter}
             </text>

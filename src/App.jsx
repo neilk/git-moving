@@ -14,13 +14,13 @@ class App extends Component {
 
     render() {
 
-        return (
-            <div className="container">
+	return (
+	    <div className="container">
 		<h2>Git moving</h2>
-                <input type="text" value={this.state.text}
-                       onChange={::this.changeText} placeholder="Type here"
-                       style={{padding: '.6em',
-                               fontSize: '1.2em',
+		<textarea rows="5" value={this.state.text}
+		       onChange={::this.changeText} placeholder="Type here"
+		       style={{padding: '.6em',
+			       fontSize: '1.2em',
 			       margin: '0px auto',
 			       width: '80%'}} />
 		<svg width="100%" height="800">

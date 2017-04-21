@@ -5,6 +5,9 @@ import Letter from './Letter';
 import React, { Component } from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
 
+const LetterWidth = 14,
+      LetterHeight = 32;
+
 class Line extends Component {
     state = {
 	// the text
@@ -68,12 +71,30 @@ class Line extends Component {
 			   .duration(750)
 			   .ease(d3.easeCubicInOut);
 
+	let c_x = 0,
+	    c_y = 0;
+
+	var letters = [];
+	this.state.textWithIds.forEach(([c, id]) => {
+	    if (c == "\n") {
+		c_x = 0;
+		c_y += LetterHeight;
+	    } else {
+		letters.push([c, id, c_x, c_y]);
+		c_x += LetterWidth;
+	    }
+	});
+
 	return (
 	    <g transform={`translate(${x}, ${y})`}>
 		<ReactTransitionGroup component="g">
-		    {this.state.textWithIds.map(([l, id], i) =>
-			<Letter letter={l} i={i} key={id} transition={transition} />
-		     )}
+		    {letters.map(([c, id, c_x, c_y]) =>
+			<Letter letter={c}
+				key={id}
+				x={c_x}
+				y={c_y}
+				transition={transition} />
+		    )}
 		</ReactTransitionGroup>
 	    </g>
 	);
