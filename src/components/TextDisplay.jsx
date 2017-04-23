@@ -25,14 +25,14 @@ class TextDisplay extends Component {
     };
 
     componentWillReceiveProps(newProps) {
-        const newText = newProps.text;
-
         const oldText = this.state.text;
         const oldTextWithIds = this.state.textWithIds;
         let newLastId = this.state.lastId;
 
         // Now we calculate the new text with ids
         let hunks = diff.diffChars(oldText, newProps.text);
+        // let hunks = diff.diffLines(oldText, newProps.text);
+
         /*
 
         hunks will look like this:
