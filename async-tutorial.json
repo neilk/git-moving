@@ -1,0 +1,28 @@
+[
+    {
+        "author": "Wassim Chegham",
+        "commit": "--",
+        "date": "Apr 21 2017",
+        "message": "callbacks",
+        "text": "getData(a => {\n    getMoreData(a, b => {\n        getMoreData(b, c => {\n            getMoreData(c, d => {\n                getMoreData(d, e => {\n                    console.log(e);\n                });\n            });\n        });\n    });\n});"
+    },
+    {
+        "author": "Wassim Chegham",
+        "commit": "--",
+        "date": "Apr 21 2017",
+        "message": "promises",
+        "text": "getData()\n.then(a => getMoreData(a))\n.then(b => getMoreData(b))\n.then(c => getMoreData(c))\n.then(d => getMoreData(d))\n.then(e => console.log(e));\n"
+    },
+    {
+        "author": "Wassim Chegham",
+        "commit": "--",
+        "date": "Apr 21 2017",
+        "message": "async/await",
+        "text": "(async () => {\n    const a = await getData();\n    const b = await getMoreData(a);\n    const c = await getMoreData(b);\n    const d = await getMoreData(c);\n    const e = await getMoreData(d);\n    console.log(e);\n})\n"
+    }
+]
+
+
+
+
+
