@@ -9,7 +9,25 @@ import hist from 'json!../dockerfile.json';
 let i = 0;
 
 class App extends Component {
-    state = {text: ''};
+    state = {
+	text: '',
+	loop: false
+    };
+
+    constructor() {
+	super();
+	this.interval = null;
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+	if (nextState.loop !== this.state.loop) {
+	    if (nextState.loop == true) {
+		this.startIterating();
+	    } else if (nextState.loop == false) {
+		this.stopIterating();
+	    }
+	}
+    }
 
     changeText(event) {
 	this.setState({text: event.target.value});
@@ -23,24 +41,28 @@ class App extends Component {
     }
 
     start() {
-	this.iterate();
-	setInterval(this.iterate.bind(this), 2000);
+	this.setState({loop: true});
     }
-/*
-		<! textarea rows="5" value={this.state.text}
-		       onChange={::this.changeText} placeholder="Type here"
-		       style={{padding: '.6em',
-			       fontSize: '1.2em',
-			       margin: '0px auto',
-			       width: '80%'}} />
-*/
+
+    stop() {
+	this.setState({loop: false})
+    }
+
+    startIterating() {
+	this.iterate();
+	this.interval = setInterval(this.iterate.bind(this), 2000);
+    }
+
+    stopIterating() {
+	clearInterval(this.interval);
+    }
 
     render() {
-
 	return (
 	    <div className="container">
 		<h2>Git moving</h2>
-		<button onClick={::this.start}>Start!</button>
+		<button onClick={::this.start}>Start</button>
+		<button onClick={::this.stop}>Stop</button>
 		<p>{this.state.author}<br/>
 		{this.state.date}<br/>
 		{this.state.message}<br/>
