@@ -23,20 +23,20 @@ module.exports = {
       extensions: ['', '.js', '.jsx']
   },
   module: {
-    loaders: [{
-      test: /\.js|\.jsx?/,
-      loaders: ['babel'],
-      include: path.join(__dirname, 'src')
-    },
-    {
-        test: /\.less$/,
-        loader: "style!css!less"
-    },
-    {
+    loaders: [
+      {
+	test: /\.js|\.jsx?/,
+	loaders: ['babel'],
+	include: path.join(__dirname, 'src')
+      },
+      {
+	test: /\.less$/,
+	loader: "style!css!less"
+      },
+      {
 	test: /\.json$/,
-	loader: "json"
-    }]
-      // require('style.less')
-      // --> <link ...
+	use: "json-loader"
+      }
+    ]
   }
 };
