@@ -68,7 +68,8 @@ class App extends Component {
     }
 
     start() {
-        setInterval(this.iterate.bind(this), 3000);
+        this.iterate();
+        setInterval(this.iterate.bind(this), 2000);
     }
 /*
                 <! textarea rows="5" value={this.state.text}
