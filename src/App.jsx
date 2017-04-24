@@ -2,8 +2,8 @@
 import d3 from 'd3';
 import React, { Component } from 'react';
 import TextDisplay from './components/TextDisplay';
-// import hist from 'json!../dockerfile.json';
-import hist from 'json!../async-tutorial.json';
+import hist from '../dockerfile.json';
+// import hist from '../async-tutorial.json';
 
 let i = 0;
 
