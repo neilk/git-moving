@@ -31,6 +31,7 @@ class TextDisplay extends Component {
 
 	// Now we calculate the new text with ids
 	let hunks = diff.diffChars(oldText, newProps.text);
+	// let hunks = diff.diffWordsWithSpace(oldText, newProps.text, {newLineIsToken: true});
 	// let hunks = diff.diffLines(oldText, newProps.text);
 
 	/*
