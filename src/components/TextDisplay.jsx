@@ -1,6 +1,7 @@
 
 import * as d3 from "d3";
 import * as diff from "diff";
+import jsTokenize from 'js-tokenizer';
 import Letter from './Letter';
 import React, { Component } from 'react';
 import ReactTransitionGroup from 'react-addons-transition-group';
@@ -30,7 +31,9 @@ class TextDisplay extends Component {
 	let newLastId = this.state.lastId;
 
 	// Now we calculate the new text with ids
-	let hunks = diff.diffChars(oldText, newProps.text);
+  let jsDiff = new diff.Diff();
+  jsDiff.tokenize = jsTokenize;
+	let hunks = jsDiff.diff(oldText, newProps.text);
 	// let hunks = diff.diffWordsWithSpace(oldText, newProps.text, {newLineIsToken: true});
 	// let hunks = diff.diffLines(oldText, newProps.text);
 
